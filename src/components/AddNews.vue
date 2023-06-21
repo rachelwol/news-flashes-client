@@ -47,6 +47,9 @@ export default {
             }
         },
     },
+    mounted() {
+        this.title = '';
+    }
 };
 </script>
 

@@ -5,7 +5,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="deleteModalLabel">מחיקה</h1>
-                    <button type="button" class="btn-close x-btn" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button @click="closeModal" type="button" class="btn-close x-btn" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <h5>האם אתה בטוח שברצונך למחוק?</h5>
@@ -13,7 +13,7 @@
                 <div class="modal-footer">
                     <button @click="saveChanges()" type="button" class="btn btn-outline-primary modal-btn"
                     data-bs-dismiss="modal">שמור</button>
-                    <button type="button" class="btn btn-outline-secondary modal-btn" data-bs-dismiss="modal">ביטול</button>
+                    <button @click="closeModal" type="button" class="btn btn-outline-secondary modal-btn" data-bs-dismiss="modal">ביטול</button>
                 </div>
             </div>
         </div>
@@ -30,11 +30,10 @@ export default {
             required: true,
         },
     },
-    emits: ["deleteData"],
+    emits: ["deleteData", "cancelDelete"],
     methods: {
         saveChanges() {
             DeleteFlash(this.itemId).then(res => {
-                this.hide();
                 this.$emit("deleteData", res);
             })
         },
@@ -42,9 +41,8 @@ export default {
             const modal = new bootstrap.Modal(document.getElementById('deleteModal'));
             modal.show();
         },
-        hide() {
-            const modal = new bootstrap.Modal(document.getElementById('deleteModal'));
-            modal.hide();
+        closeModal() {
+            this.$emit("cancelDelete", false);
         },
     },
     mounted() {

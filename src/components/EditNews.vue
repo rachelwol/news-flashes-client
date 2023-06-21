@@ -5,7 +5,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="editModalLabel">עריכה</h1>
-                    <button type="button" class="btn-close x-btn" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button  @click="closeModal()" type="button" class="btn-close x-btn" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <label for="recipient-name" class="col-form-label title-label">כותרת:</label>
@@ -14,8 +14,9 @@
                 </div>
                 <div class="modal-footer">
                     <button @click="saveChanges()" type="button" class="btn btn-outline-primary modal-btn"
-                    data-bs-dismiss="modal">שמור</button>
-                    <button type="button" class="btn btn-outline-secondary modal-btn" data-bs-dismiss="modal">ביטול</button>
+                        data-bs-dismiss="modal">שמור</button>
+                    <button @click="closeModal()" type="button" class="btn btn-outline-secondary modal-btn"
+                        data-bs-dismiss="modal">ביטול</button>
                 </div>
             </div>
         </div>
@@ -26,7 +27,7 @@
 import { EditFlash } from '../services/FlashService';
 export default {
     name: "EditNews",
-    emits: ["editData"],
+    emits: ["editData", "cancelEdit"],
     props: {
         item: {
             type: Object
@@ -44,14 +45,17 @@ export default {
                 alert('לא ניתן לשמור אוביקט ריק');
             } else {
                 if (this.editedTitle != this.lastTitle) {
-                    let editItem = { Id: this.item.Id, Title: this.editedTitle, Date: this.item.Date};
+                    const dateValue = this.item.Date;
+                    const date = new Date(parseInt(dateValue.substr(6)));
+                    let editItem = { Id: this.item.Id, Title: this.editedTitle, Date: date };
                     EditFlash(editItem).then(res => {
                         this.$emit("editData", res);
-                        const modal = new bootstrap.Modal(document.getElementById('editModal'));
-                        modal.hide();
                     });
                 }
             }
+        },
+        closeModal() {
+            this.$emit("cancelEdit", false);
         },
         formattedTime(date) {
             return moment(date).format('HH:mm');
@@ -60,10 +64,6 @@ export default {
             const modal = new bootstrap.Modal(document.getElementById('editModal'));
             modal.show();
         },
-        hide() {
-            const modal = new bootstrap.Modal(document.getElementById('editModal'));
-            modal.hide();
-        }
     },
     mounted() {
         this.show();

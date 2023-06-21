@@ -11,10 +11,10 @@
                 </div>
                 <div class="btn-card">
                     <button type="button" @click="openEdit(item)" class="btn btn-outline-primary edit-btn">עריכה</button>
-                    <EditNews v-if="openEditModal" :item="editItem" @editData="updateData" />
+                    <EditNews v-if="openEditModal" :item="editItem" @editData="updateData" @cancelEdit="resetOpenEditModal" />
                     <button type="button" @click="openDelete(item.Id)"
                         class="btn btn-outline-primary delete-btn">מחיקה</button>
-                    <DeleteNews v-if="openDeleteModal" :itemId="itemId" @deleteData="updateData" />
+                    <DeleteNews v-if="openDeleteModal" :itemId="itemId" @deleteData="updateData" @cancelDelete="resetOpenDeleteModal" />
                 </div>
             </div>
         </div>
@@ -50,6 +50,12 @@ export default {
             this.openDeleteModal = false;
             this.openEditModal = false;
             this.data = data;
+        },
+        resetOpenEditModal(close){
+            this.openEditModal = close;
+        },
+        resetOpenDeleteModal(close){
+            this.openDeleteModal = close;
         },
         formattedTime(date) {
             return moment(date).format('HH:mm');
