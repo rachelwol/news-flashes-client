@@ -1,5 +1,5 @@
 <template>
-    <button type="button" class="btn btn-outline-primary edit-btn" data-bs-toggle="modal" data-bs-target="#editModal">עריכה</button>
+    <!-- <button type="button" class="btn btn-outline-primary edit-btn" data-bs-toggle="modal" data-bs-target="#editModal">עריכה</button> -->
     <div class="modal fade" data-bs-backdrop="static" id="editModal" tabindex="-1" aria-labelledby="editModalLabel"
         aria-hidden="true">
         <div class="modal-dialog">
@@ -57,10 +57,7 @@ export default {
 </script>
 
 <style scoped>
-.edit-btn {
-    margin-left: 4px;
-    width: 49%;
-}
+
 
 .title-label{
     float: right;

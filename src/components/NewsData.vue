@@ -4,14 +4,18 @@
             <div class="card-header">
                 מבזקי חדשות
             </div>
-            <div v-for="(item, index) in data" :key="item.Id" :class="{ 'not-last': index !== data.length - 1 }">
+            <div v-for="(item, index) in data" :key="item.Id" :class="{ 'add-border': index !== data.length - 1 }">
                 <div class="card-body">
                     <h5 class="card-title red-title">{{ formattedTime(item.Date) }}</h5>
                     <p class="card-text">{{ item.Title }}</p>
                 </div>
                 <div class="btn-card">
-                    <EditNews :item="item" @editData="updateData" />
-                    <DeleteNews v-if="item.Id" :itemId="item.Id" @deleteData="updateData" />
+                    <button type="button" @click="openEdit(item)"
+                     class="btn btn-outline-primary edit-btn">עריכה</button>
+                     <EditNews v-if="openEditModal" :item="editItem" @editData="updateData" />
+                    <button type="button" @click="openDelete(item.Id)"
+                        class="btn btn-outline-primary delete-btn">מחיקה</button>
+                    <DeleteNews v-if="openDeleteModal" :itemId="itemId" @deleteData="updateData" />
                 </div>
             </div>
         </div>
@@ -31,6 +35,10 @@ export default {
     data() {
         return {
             data: [],
+            itemId: 0,
+            editItem: {},
+            openDeleteModal: false,
+            openEditModal: false
         }
     },
     methods: {
@@ -45,6 +53,14 @@ export default {
         formattedTime(date) {
             return moment(date).format('HH:mm');
         },
+        openDelete(id) {
+            this.itemId = id;
+            this.openModal = true;
+        },
+        openEdit(item){
+            this.editItem = item;
+            this.openEditModal = true;
+        }
     },
     mounted() {
         this.getAllData();
@@ -62,11 +78,21 @@ export default {
     height: 584.8px;
     overflow-y: scroll;
 }
-.btn-card{
+
+.btn-card {
     margin: 5px;
 }
 
-.not-last {
+.add-border:not(:last-child) {
     border-bottom: 1px solid rgba(0, 0, 0, 0.176)
+}
+
+.delete-btn {
+    width: 49%;
+}
+
+.edit-btn {
+    margin-left: 4px;
+    width: 49%;
 }
 </style>

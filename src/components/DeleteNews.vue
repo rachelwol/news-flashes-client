@@ -1,6 +1,6 @@
 <template>
-    <button type="button" class="btn btn-outline-primary delete-btn" data-bs-toggle="modal"
-        data-bs-target="#deleteModal">מחיקה</button>
+    <!-- <button type="button" class="btn btn-outline-primary delete-btn" data-bs-toggle="modal"
+        data-bs-target="#deleteModal">מחיקה</button> -->
     <div class="modal fade" data-bs-backdrop="static" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel"
         aria-hidden="true">
         <div class="modal-dialog">
