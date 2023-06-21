@@ -1,7 +1,5 @@
 <template>
-    <!-- <button type="button" class="btn btn-outline-primary delete-btn" data-bs-toggle="modal"
-        data-bs-target="#deleteModal">מחיקה</button> -->
-    <div class="modal fade" data-bs-backdrop="static" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel"
+    <div class="modal fade" data-bs-backdrop="false" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel"
         aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -14,7 +12,7 @@
                 </div>
                 <div class="modal-footer">
                     <button @click="saveChanges()" type="button" class="btn btn-outline-primary modal-btn"
-                        data-bs-dismiss="modal">שמור</button>
+                    data-bs-dismiss="modal">שמור</button>
                     <button type="button" class="btn btn-outline-secondary modal-btn" data-bs-dismiss="modal">ביטול</button>
                 </div>
             </div>
@@ -36,10 +34,22 @@ export default {
     methods: {
         saveChanges() {
             DeleteFlash(this.itemId).then(res => {
+                this.hide();
                 this.$emit("deleteData", res);
             })
-        }
+        },
+        show() {
+            const modal = new bootstrap.Modal(document.getElementById('deleteModal'));
+            modal.show();
+        },
+        hide() {
+            const modal = new bootstrap.Modal(document.getElementById('deleteModal'));
+            modal.hide();
+        },
     },
+    mounted() {
+        this.show();
+    }
 };
 </script>
 

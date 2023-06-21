@@ -1,6 +1,5 @@
 <template>
-    <!-- <button type="button" class="btn btn-outline-primary edit-btn" data-bs-toggle="modal" data-bs-target="#editModal">עריכה</button> -->
-    <div class="modal fade" data-bs-backdrop="static" id="editModal" tabindex="-1" aria-labelledby="editModalLabel"
+    <div class="modal fade" data-bs-backdrop="false" id="editModal" tabindex="-1" aria-labelledby="editModalLabel"
         aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -11,10 +10,11 @@
                 <div class="modal-body">
                     <label for="recipient-name" class="col-form-label title-label">כותרת:</label>
                     <input type="text" class="form-control card-text" id="recipient-name" placeholder="הכנס כותרת"
-                        v-model="item.Title">
+                        :value="editedTitle" @input="editedTitle = $event.target.value">
                 </div>
                 <div class="modal-footer">
-                    <button @click="saveChanges()" type="button" class="btn btn-outline-primary modal-btn" data-bs-dismiss="modal">שמור</button>
+                    <button @click="saveChanges()" type="button" class="btn btn-outline-primary modal-btn"
+                    data-bs-dismiss="modal">שמור</button>
                     <button type="button" class="btn btn-outline-secondary modal-btn" data-bs-dismiss="modal">ביטול</button>
                 </div>
             </div>
@@ -34,17 +34,21 @@ export default {
     },
     data() {
         return {
-            lastTitle: this.item.Title
+            lastTitle: this.item.Title,
+            editedTitle: this.item.Title
         }
     },
     methods: {
         saveChanges() {
-            if (!this.item.Title) {
+            if (!this.editedTitle) {
                 alert('לא ניתן לשמור אוביקט ריק');
             } else {
-                if (this.item.Title != this.lastTitle) {
-                    EditFlash(this.item).then(res => {
+                if (this.editedTitle != this.lastTitle) {
+                    let editItem = { Id: this.item.Id, Title: this.editedTitle, Date: this.item.Date};
+                    EditFlash(editItem).then(res => {
                         this.$emit("editData", res);
+                        const modal = new bootstrap.Modal(document.getElementById('editModal'));
+                        modal.hide();
                     });
                 }
             }
@@ -52,14 +56,29 @@ export default {
         formattedTime(date) {
             return moment(date).format('HH:mm');
         },
+        show() {
+            const modal = new bootstrap.Modal(document.getElementById('editModal'));
+            modal.show();
+        },
+        hide() {
+            const modal = new bootstrap.Modal(document.getElementById('editModal'));
+            modal.hide();
+        }
+    },
+    mounted() {
+        this.show();
     }
+
 };
 </script>
 
 <style scoped>
+.edit-btn {
+    margin-left: 4px;
+    width: 49%;
+}
 
-
-.title-label{
+.title-label {
     float: right;
 }
 </style>

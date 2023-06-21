@@ -10,9 +10,8 @@
                     <p class="card-text">{{ item.Title }}</p>
                 </div>
                 <div class="btn-card">
-                    <button type="button" @click="openEdit(item)"
-                     class="btn btn-outline-primary edit-btn">עריכה</button>
-                     <EditNews v-if="openEditModal" :item="editItem" @editData="updateData" />
+                    <button type="button" @click="openEdit(item)" class="btn btn-outline-primary edit-btn">עריכה</button>
+                    <EditNews v-if="openEditModal" :item="editItem" @editData="updateData" />
                     <button type="button" @click="openDelete(item.Id)"
                         class="btn btn-outline-primary delete-btn">מחיקה</button>
                     <DeleteNews v-if="openDeleteModal" :itemId="itemId" @deleteData="updateData" />
@@ -48,6 +47,8 @@ export default {
             })
         },
         updateData(data) {
+            this.openDeleteModal = false;
+            this.openEditModal = false;
             this.data = data;
         },
         formattedTime(date) {
@@ -55,9 +56,9 @@ export default {
         },
         openDelete(id) {
             this.itemId = id;
-            this.openModal = true;
+            this.openDeleteModal = true;
         },
-        openEdit(item){
+        openEdit(item) {
             this.editItem = item;
             this.openEditModal = true;
         }
