@@ -1,7 +1,7 @@
 <template>
     <button type="button" class="btn btn-outline-primary add-btn" data-bs-toggle="modal"
         data-bs-target="#addModal">הוספה</button>
-    <div class="modal fade" data-bs-backdrop="static" id="addModal" tabindex="-1" aria-labelledby="addModalLabel"
+    <div class="modal fade" data-bs-backdrop="false" id="addModal" tabindex="-1" aria-labelledby="addModalLabel"
         aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">

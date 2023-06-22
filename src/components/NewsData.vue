@@ -102,4 +102,12 @@ export default {
     margin-left: 4px;
     width: 49%;
 }
+
+.card-header {
+  position: sticky;
+  top: 0;
+  background-color: #dee2e6;
+  z-index: 1;
+}
+
 </style>
